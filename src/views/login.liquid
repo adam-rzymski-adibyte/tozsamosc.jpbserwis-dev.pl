@@ -1,0 +1,32 @@
+{% if google %}
+  <!-- Usunięto formularz logowania Google -->
+{% endif %}
+
+<div class="text-center mb-3"></div>
+
+<form
+  autocomplete="off"
+  action="/interaction/{{ uid }}/login"
+  method="post"
+  class="mb-3">
+  <div class="mb-3">
+    <input
+      required
+      type="text"
+      name="login"
+      placeholder="login"
+      class="form-control"
+      {% unless params.login_hint %}autofocus="on"{% else %}value="{{ params.login_hint }}"{% endunless %}>
+  </div>
+  <div class="mb-3">
+    <input
+      required
+      type="password"
+      name="password"
+      placeholder="hasło"
+      class="form-control"
+      {% if params.login_hint %}autofocus="on"{% endif %}>
+  </div>
+
+  <button type="submit" class="btn btn-primary w-100">Zaloguj się</button>
+</form>

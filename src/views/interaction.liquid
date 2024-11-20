@@ -1,0 +1,67 @@
+<div class="container">
+  <div class="login-client-image">
+    {% if flags.hasLogo %}
+      <img src="{{ flags.logoUri }}" class="img-fluid">
+    {% endif %}
+  </div>
+
+  <div class="mt-4">
+    {% if flags.requiresAuthorizationConfirmation %}
+      <p class="mb-4">Klient wymaga potwierdzenia uprzedniej autoryzacji</p>
+    {% endif %}
+
+    {% if flags.missingScopes.size > 0 %}
+      <p class="m-2">
+        <strong>Scopes:</strong>
+      </p>
+      <ul class="list-group">
+        {% for scope in flags.missingScopes %}
+          <li class="list-group-item">{{ scope }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% if flags.missingClaims.size > 0 %}
+      <p class="m-2">
+        <strong>Claims:</strong>
+      </p>
+      <ul class="list-group">
+        {% for claim in flags.missingClaims %}
+          <li class="list-group-item">{{ claim }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% if flags.missingResourceScopes.size > 0 %}
+      {% for entry in flags.missingResourceScopes %}
+        <p class="m-2">
+          <strong>{{ entry.indicator }}:</strong>
+        </p>
+        <ul class="list-group">
+          {% for scope in entry.scopes %}
+            <li class="list-group-item">{{ scope }}</li>
+          {% endfor %}
+        </ul>
+      {% endfor %}
+    {% endif %}
+
+    {% if flags.requiresOfflineAccess %}
+      <div class="mt-4">
+        The client is asking to have offline access to this authorization
+        {% if flags.hasGrantedOfflineAccess %}
+          (which you've previously granted)
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+
+  <form
+    autocomplete="off"
+    action="/interaction/{{ uid }}/confirm"
+    method="post">
+    <button
+      autofocus
+      type="submit"
+      class="btn btn-primary mt-4">Kontynuuj</button>
+  </form>
+</div>
